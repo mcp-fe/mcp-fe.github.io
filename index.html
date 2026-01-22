@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MCP-FE — Frontend Context Infrastructure for AI Agents</title>
+  <meta name="description"
+        content="MCP-FE enables AI agents to query real-time frontend context via MCP-compatible edge nodes running in the browser." />
+  <style> body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #0f1115;
+      color: #e6e6e6;
+      line-height: 1.6;
+  }
+
+  main {
+      max-width: 880px;
+      margin: 0 auto;
+      padding: 64px 24px;
+  }
+
+  h1, h2, h3 {
+      line-height: 1.25;
+      margin-top: 2.2em;
+  }
+
+  h1 {
+      font-size: 3rem;
+      margin-top: 0;
+  }
+
+  h2 {
+      font-size: 1.8rem;
+      border-bottom: 1px solid #2a2d34;
+      padding-bottom: 0.3em;
+  }
+
+  p {
+      max-width: 720px;
+  }
+
+  code, pre {
+      background: #161a22;
+      border-radius: 6px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+
+  code {
+      padding: 0.2em 0.4em;
+      font-size: 0.9em;
+  }
+
+  pre {
+      padding: 16px;
+      overflow-x: auto;
+      margin: 1.2em 0;
+  }
+
+  .tagline {
+      font-size: 1.25rem;
+      color: #a0a6b3;
+      margin-top: 0.5em;
+  }
+
+  .section {
+      margin-top: 3.5em;
+  }
+
+  .links a {
+      display: inline-block;
+      margin-right: 16px;
+      color: #7aa2f7;
+      text-decoration: none;
+  }
+
+  .links a:hover {
+      text-decoration: underline;
+  }
+
+  footer {
+      margin-top: 6em;
+      font-size: 0.9rem;
+      color: #8b90a0;
+  } </style>
+</head>
+<body>
+<main>
+  <header><h1>MCP-FE</h1>
+    <div class="tagline"> Frontend Context Infrastructure for AI Agents</div>
+  </header>
+  <section class="section"><h2>What is MCP-FE?</h2>
+    <p> MCP-FE is an architectural pattern and reference implementation that allows AI agents to reason about real user
+      interface state by exposing frontend context via <strong>Model Context Protocol (MCP)</strong>. </p>
+    <p> Instead of relying solely on backend data or analytics-style event streams, MCP-FE makes the browser an active,
+      queryable context provider. </p></section>
+  <section class="section"><h2>Why does this exist?</h2>
+    <p> Modern AI agents often lack visibility into what the user is actually seeing or doing in the frontend. </p>
+    <p> Common approaches fall short: </p>
+    <ul>
+      <li>Analytics events are delayed and lossy</li>
+      <li>Polling frontend state is inefficient</li>
+      <li>Backend-only MCP servers cannot observe UI state</li>
+    </ul>
+    <p> MCP-FE solves this by enabling <strong>on-demand, session-scoped access</strong> to frontend context. </p>
+  </section>
+  <section class="section"><h2>High-Level Architecture</h2>
+    <p> MCP-FE introduces a frontend edge layer that participates in the MCP ecosystem. </p>
+    <pre> [ AI Agent ] | | MCP (tools / requests) v [ MCP Server (Backend) ] | | session routing v [ MCP-FE Edge (Shared/Service Worker) ] | | UI state, navigation, user interactions v [ React Application ] </pre>
+    <p> The backend MCP server acts as a session-aware router and proxy, while the frontend edge exposes real-time UI
+      context when requested. </p></section>
+  <section class="section"><h2>Key Concepts</h2>
+    <ul>
+      <li><strong>Frontend MCP Edge</strong> — runs in a Shared/Service Worker and observes UI state</li>
+      <li><strong>Session-scoped context</strong> — each browser session is isolated</li>
+      <li><strong>On-demand querying</strong> — no continuous event streaming</li>
+    </ul>
+  </section>
+  <section class="section"><h2>Current Status</h2>
+    <p> MCP-FE is currently published as an open-source reference implementation. The focus is on: </p>
+    <ul>
+      <li>Validating the architecture</li>
+      <li>Defining a clean MCP request envelope</li>
+      <li>Exploring session routing strategies</li>
+    </ul>
+  </section>
+  <section class="section links"><h2>Links</h2> <a href="https://github.com/mcp-fe" target="_blank">GitHub</a>
+    <a href="https://www.npmjs.com/package/@mcp-fe/mcp-worker" target="_blank">npm</a></section>
+  <footer><p> MCP-FE is an open architectural exploration.<br /> Feedback, discussion, and contributions are welcome.
+  </p></footer>
+</main>
+</body>
+</html>
