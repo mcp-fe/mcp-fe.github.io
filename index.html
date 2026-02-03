@@ -14,6 +14,7 @@
       background: #0f1115;
       color: #e6e6e6;
       line-height: 1.6;
+      overflow-x: clip;
     }
 
     main {
@@ -30,6 +31,9 @@
     h1 {
       font-size: 3rem;
       margin-top: 0;
+      background: linear-gradient(to right, #7aa2f7, #bb9af7);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
     h2 {
@@ -89,11 +93,43 @@
       margin: 1.5em 0;
     }
 
+    .full-bleed {
+      width: 100vw;
+      position: relative;
+      left: 50%;
+      right: 50%;
+      margin-left: -50vw;
+      margin-right: -50vw;
+    }
+
+    .full-bleed-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
     .package-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 20px;
       margin: 2em 0;
+      align-items: stretch;
+
+      /* Mobil / úzké displeje: 1 sloupec */
+      grid-template-columns: 1fr;
+    }
+
+    /* Střední šířky: 2 sloupce */
+    @media (min-width: 700px) {
+      .package-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    /* Široké displeje: 4 sloupce */
+    @media (min-width: 1200px) {
+      .package-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
     }
 
     .package-card {
@@ -102,6 +138,7 @@
       border-radius: 8px;
       padding: 20px;
       transition: border-color 0.2s ease;
+      min-width: 0;
     }
 
     .package-card:hover {
@@ -148,6 +185,7 @@
       border: 1px solid #30363d;
       border-radius: 6px;
       transition: all 0.2s ease;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
     }
 
     .links a:hover {
@@ -159,6 +197,12 @@
     .feature-list {
       list-style: none;
       padding-left: 0;
+    }
+
+    .feature-list code {
+      background: none;
+      color: inherit;
+      padding: 0;
     }
 
     .feature-list li {
@@ -204,7 +248,7 @@
 <main>
   <header>
     <h1>MCP-FE</h1>
-    <div class="tagline">Frontend Context Infrastructure for AI Agents</div>
+    <div class="tagline">Stop pushing logs. Start serving context on-demand.</div>
   </header>
 
   <section class="section">
@@ -224,6 +268,45 @@
   </section>
 
   <section class="section">
+    <h2>The Power of @mcp-fe/react-tools</h2>
+    <p>
+      Standard MCP servers are static. <strong>MCP-FE is alive.</strong> With our React integration,
+      your AI agent gains new capabilities dynamically based on the user's current view.
+    </p>
+
+    <div class="highlight-box">
+      <h3>`useMCPTool` — Real-time Component Access</h3>
+      <p>Expose local state, props, or even DOM refs directly to your agent with a simple hook.</p>
+
+      <pre><code>// This tool only exists while the ProductDetail component is active
+function ProductDetail({ productId }) {
+  const { data } = useQuery(['product', productId]);
+
+  useMCPTool(
+    'get_current_product_specs',
+    'Returns technical specs of the product currently on screen',
+    async () => ({
+      name: data.name,
+      inStock: data.inventory > 0,
+      specs: data.technicalDetails
+    })
+  );
+
+  return &lt;div&gt;...&lt;/div&gt;;
+}</code></pre>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px;">
+      <div class="use-case">
+        <strong>Contextual Lifecycle:</strong> When the component unmounts, the tool is automatically deregistered from the Worker. No ghost tools.
+      </div>
+      <div class="use-case">
+        <strong>Zero Data Leakage:</strong> Sensitive data stays in your component's closure until the agent explicitly asks for it.
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
     <h2>Quick Start</h2>
     <div class="quick-start">
       <h3>1. Start the MCP Proxy Server</h3>
@@ -233,26 +316,27 @@
       </div>
 
       <h3>2. Install in Your React App</h3>
-      <pre><code>npm install @mcp-fe/react-event-tracker @mcp-fe/mcp-worker</code></pre>
+      <pre><code>npm install @mcp-fe/react-tools @mcp-fe/mcp-worker</code></pre>
 
-      <h3>3. Add Event Tracking</h3>
-      <pre><code>import { useReactRouterEventTracker } from '@mcp-fe/react-event-tracker';
+      <h3>3. Inject Dynamic Tools</h3>
+      <pre><code>import { useMCPTool } from '@mcp-fe/react-tools';
 
-function App() {
-  const { setAuthToken } = useReactRouterEventTracker({
-    backendWsUrl: 'ws://localhost:3001'
-  });
+function Dashboard() {
+  // AI Agent can now ask for internal metrics directly from this component
+  useMCPTool('get_internal_metrics', 'Returns current dashboard KPIs', async () => ({
+    activeUsers: 42,
+    systemLoad: 'optimal'
+  }));
 
-  // Your app automatically tracks navigation, clicks, and inputs
-  return &lt;YourAppContent /&gt;;
+  return &lt;DashboardUI /&gt;;
 }</code></pre>
 
       <h3>4. Query from AI Agents</h3>
       <p>AI agents can now query real-time frontend state through standard MCP tools:</p>
       <ul>
-        <li><code>get_user_events</code> - Query user interactions and navigation</li>
         <li><code>get_connection_status</code> - Check browser session status</li>
-        <li><code>get_session_info</code> - Get current session context</li>
+        <li><code>get_user_events</code> - Query user interactions and navigation</li>
+        <li><code>get_internal_metrics</code> - Get current component state</li>
       </ul>
     </div>
   </section>
@@ -294,6 +378,18 @@ function App() {
   </section>
 
   <section class="section">
+    <h2>Security & Privacy First</h2>
+    <div class="highlight-box" style="border-left: 4px solid #7ee787;">
+      <p>Unlike traditional analytics, <strong>MCP-FE is passive</strong>. It doesn't stream your data to any cloud.</p>
+      <ul class="feature-list">
+        <li><strong>Pull Model:</strong> Context only leaves the browser when an agent explicitly calls a tool.</li>
+        <li><strong>Developer-Defined:</strong> You decide exactly which state or actions are exposed.</li>
+        <li><strong>Local Execution:</strong> Tool handlers run in your app's context, respecting your existing auth.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section">
     <h2>High-Level Architecture</h2>
     <p>MCP-FE introduces a frontend edge layer that participates in the MCP ecosystem.</p>
     <img src="./mcp-fe-architecture.png" alt="MCP-FE Architecture Diagram" style="max-width: 100%; height: auto;" />
@@ -307,44 +403,58 @@ function App() {
     <h2>Package Ecosystem</h2>
     <p>MCP-FE is built as a modular ecosystem with packages for different use cases and frameworks:</p>
 
-    <div class="package-grid">
-      <div class="package-card">
-        <div class="package-name">
-          <a href="https://www.npmjs.com/package/@mcp-fe/mcp-worker" target="_blank" style="color: inherit; text-decoration: none;">@mcp-fe/mcp-worker</a>
-        </div>
-        <div class="package-desc">Core browser-based MCP server implementation using Web Workers</div>
-        <ul class="feature-list">
-          <li>SharedWorker + ServiceWorker support</li>
-          <li>IndexedDB storage</li>
-          <li>WebSocket transport</li>
-          <li>Authentication & session management</li>
-        </ul>
-      </div>
+    <div class="full-bleed">
+      <div class="full-bleed-inner">
+        <div class="package-grid">
+          <div class="package-card">
+            <div class="package-name">
+              <a href="https://www.npmjs.com/package/@mcp-fe/mcp-worker" target="_blank" style="color: inherit; text-decoration: none;">@mcp-fe/mcp-worker</a>
+            </div>
+            <div class="package-desc">Core browser-based MCP server implementation using Web Workers</div>
+            <ul class="feature-list">
+              <li>SharedWorker + ServiceWorker support</li>
+              <li>IndexedDB storage</li>
+              <li>WebSocket transport</li>
+              <li>Authentication & session management</li>
+            </ul>
+          </div>
 
-      <div class="package-card">
-        <div class="package-name">
-          <a href="https://www.npmjs.com/package/@mcp-fe/event-tracker" target="_blank" style="color: inherit; text-decoration: none;">@mcp-fe/event-tracker</a>
-        </div>
-        <div class="package-desc">Framework-agnostic event tracking API</div>
-        <ul class="feature-list">
-          <li>Simple tracking functions</li>
-          <li>Navigation, click, input events</li>
-          <li>Custom event support</li>
-          <li>Connection status monitoring</li>
-        </ul>
-      </div>
+          <div class="package-card">
+            <div class="package-name">@mcp-fe/react-tools</div>
+            <div class="package-desc">React-first hooks for dynamic tool registration and state access.</div>
+            <ul class="feature-list">
+              <li><code>useMCPTool</code> hook</li>
+              <li>Automatic cleanup on unmount</li>
+              <li>React-safe state snapshots</li>
+            </ul>
+          </div>
 
-      <div class="package-card">
-        <div class="package-name">
-          <a href="https://www.npmjs.com/package/@mcp-fe/react-event-tracker" target="_blank" style="color: inherit; text-decoration: none;">@mcp-fe/react-event-tracker</a>
+          <div class="package-card">
+            <div class="package-name">
+              <a href="https://www.npmjs.com/package/@mcp-fe/event-tracker" target="_blank" style="color: inherit; text-decoration: none;">@mcp-fe/event-tracker</a>
+            </div>
+            <div class="package-desc">Framework-agnostic event tracking API</div>
+            <ul class="feature-list">
+              <li>Simple tracking functions</li>
+              <li>Navigation, click, input events</li>
+              <li>Custom event support</li>
+              <li>Connection status monitoring</li>
+            </ul>
+          </div>
+
+          <div class="package-card">
+            <div class="package-name">
+              <a href="https://www.npmjs.com/package/@mcp-fe/react-event-tracker" target="_blank" style="color: inherit; text-decoration: none;">@mcp-fe/react-event-tracker</a>
+            </div>
+            <div class="package-desc">React hooks for automatic event tracking</div>
+            <ul class="feature-list">
+              <li>React Router integration</li>
+              <li>TanStack Router support</li>
+              <li>Zero-config setup</li>
+              <li>Automatic UI interaction tracking</li>
+            </ul>
+          </div>
         </div>
-        <div class="package-desc">React hooks for automatic event tracking</div>
-        <ul class="feature-list">
-          <li>React Router integration</li>
-          <li>TanStack Router support</li>
-          <li>Zero-config setup</li>
-          <li>Automatic UI interaction tracking</li>
-        </ul>
       </div>
     </div>
   </section>
@@ -397,11 +507,18 @@ await trackEvent({
     </ul>
   </section>
 
-  <section class="section links">
-    <h2>Get Started</h2>
-    <a href="https://github.com/mcp-fe/mcp-fe" target="_blank">📚 Documentation</a>
-    <a href="https://www.npmjs.com/package/@mcp-fe/mcp-worker" target="_blank">📦 npm Packages</a>
-    <a href="https://github.com/mcp-fe/mcp-fe/pkgs/container/mcp-fe%2Fmcp-server" target="_blank">🐳 Docker Image</a>
+  <section class="section" style="text-align: center; background: #161a22; padding: 48px; border-radius: 12px;">
+    <h2>Ready to give your AI eyes?</h2>
+    <p>Start building "Runtime-Aware" applications today.</p>
+    <div class="links" style="margin-top: 24px;">
+      <a href="https://github.com/mcp-fe/mcp-fe" style="background: #7aa2f7; color: #0f1115; font-weight: bold; padding: 12px 32px;">Get Started on GitHub</a>
+    </div>
+    <div class="links" style="margin-top: 26px;">
+      <a href="https://github.com/mcp-fe/mcp-fe" target="_blank">📚 Documentation</a>
+      <a href="https://www.npmjs.com/package/@mcp-fe/mcp-worker" target="_blank">📦 npm Packages</a>
+      <a href="https://github.com/mcp-fe/mcp-fe/pkgs/container/mcp-fe%2Fmcp-server" target="_blank">🐳 Docker Image</a>
+    </div>
+
   </section>
 
   <footer>
@@ -414,3 +531,4 @@ await trackEvent({
 </main>
 </body>
 </html>
+
