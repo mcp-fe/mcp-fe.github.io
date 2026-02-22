@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MCP-FE — Frontend Context Infrastructure for AI Agents</title>
   <meta name="description"
-        content="MCP-FE enables AI agents to query real-time frontend context via MCP-compatible edge nodes running in the browser. Turn your application into an active, queryable MCP node." />
+        content="MCP-FE enables local and remote AI agents to query real-time frontend context via WebMCP-compatible edge nodes in the browser, bridged to the network through a session-aware proxy server." />
   <style>
     body {
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -91,6 +91,10 @@
       border-radius: 8px;
       padding: 24px;
       margin: 1.5em 0;
+    }
+
+    .highlight-box h3 {
+      margin-top: 0;
     }
 
     .full-bleed {
@@ -251,20 +255,55 @@
     <div class="tagline">Stop pushing logs. Start serving context on-demand.</div>
   </header>
 
+  <video width="100%" height="auto" controls style="margin-top: 2em; border-radius: 6px;">
+    <source src="./mcp-fe-demo.mp4" type="video/mp4" />
+    Your browser does not support the video tag.
+  </video>
+
   <section class="section">
     <h2>What is MCP-FE?</h2>
     <p>
       MCP-FE is an architectural pattern and reference implementation that allows AI agents to reason about real user
-      interface state by exposing frontend context via <strong>Model Context Protocol (MCP)</strong>.
+      interface state and <strong>execute actions directly within the frontend</strong> by exposing it via the <strong>Model Context Protocol (MCP)</strong>.
     </p>
+
     <p>
-      Instead of relying solely on backend data or analytics-style event streams, MCP-FE makes the browser an active,
-      queryable context provider that AI agents can interact with in real-time.
+      Most AI integrations treat the browser as a read-only environment, pushing static analytics logs to a backend.
+      MCP-FE changes this by turning the browser into an active, two-way node, giving your AI agents both <strong>eyes (Context)</strong> and <strong>hands (Actions)</strong>:
     </p>
-    <video width="100%" height="auto" controls style="margin-top: 1.2em; border-radius: 6px;">
-      <source src="./mcp-fe-demo.mp4" type="video/mp4" />
-      Your browser does not support the video tag.
-    </video>
+
+    <ul class="feature-list" style="margin-bottom: 1.5em;">
+      <li><strong>Context Provider (The Eyes):</strong> Agents can query live React/Zustand state, read current form values, and inspect user navigation history on-demand.</li>
+      <li><strong>Action Executor (The Hands):</strong> Agents can programmatically navigate your app via your router, fill and validate complex forms, or trigger internal side-effects safely through your predefined tools.</li>
+    </ul>
+
+    <p>
+      This capabilities are accessible both to <strong>in-browser agents</strong> natively,
+      and to <strong>remote agents</strong> over the network through our session-aware proxy server.
+    </p>
+
+    <div class="highlight-box" style="border-left: 4px solid #bb9af7; margin-top: 1.5em;">
+      <h3>🌐 WebMCP Compatible — and Beyond</h3>
+      <p>
+        The <a href="https://github.com/webmachinelearning/webmcp" target="_blank" style="color: #bb9af7;">WebMCP specification</a>
+        defines a standard for running MCP servers directly in the browser.
+        It is already shipping in the latest Chrome <strong>behind an experimental feature flag</strong>.
+        However, even when fully rolled out, native WebMCP will only enable <strong>local agents</strong> that run in the exact same browser context.
+      </p>
+      <p>
+        <strong>MCP-FE bridges the gap today, for everyone.</strong>
+        It uses existing Web APIs (SharedWorker, ServiceWorker, WebSocket, IndexedDB) to deliver a
+        browser-native MCP server experience — <strong>without requiring users to enable experimental browser flags.</strong>
+        On top of that, its <strong>backend proxy server</strong> connects the browser MCP node to the network,
+        allowing <strong>remote AI agents</strong> (cloud-hosted LLMs, CI/CD pipelines, support dashboards)
+        to query state and execute actions over standard
+        <a href="https://github.com/anthropics/model-context-protocol" target="_blank" style="color: #bb9af7;">MCP</a> transport.
+      </p>
+      <p style="margin-bottom: 0;">
+        As native WebMCP becomes available by default across browsers, MCP-FE will seamlessly adopt it as the primary transport.
+        Until then — and beyond — MCP-FE gives you both local and remote agent access without the wait.
+      </p>
+    </div>
   </section>
 
   <section class="section">
@@ -350,6 +389,7 @@ function Dashboard() {
       <li>Polling frontend state is inefficient</li>
       <li>Backend-only MCP servers cannot observe UI state</li>
       <li>Screen sharing is too invasive and resource-intensive</li>
+      <li>Browser-native WebMCP is currently hidden behind a feature flag and limited to local agents only</li>
     </ul>
     <p>
       MCP-FE solves this by enabling <strong>on-demand, session-scoped access</strong> to frontend context,
@@ -391,11 +431,21 @@ function Dashboard() {
 
   <section class="section">
     <h2>High-Level Architecture</h2>
-    <p>MCP-FE introduces a frontend edge layer that participates in the MCP ecosystem.</p>
+    <p>MCP-FE introduces a frontend edge layer that participates in the MCP ecosystem through two complementary access paths:</p>
     <img src="./mcp-fe-architecture.png" alt="MCP-FE Architecture Diagram" style="max-width: 100%; height: auto;" />
     <p>
-      The backend MCP server acts as a session-aware router and proxy, while the frontend edge exposes real-time UI
-      context when requested. Data flows on-demand rather than through continuous streaming.
+      <strong>Local path:</strong> In-browser agents can call MCP tools directly through a Web Worker built on
+      existing Web APIs (SharedWorker, ServiceWorker, IndexedDB) — <strong>no experimental browser flags required.</strong>
+      When native WebMCP is available by default, MCP-FE will adopt it seamlessly.
+    </p>
+    <p>
+      <strong>Remote path (Proxy):</strong> The backend MCP server acts as a session-aware proxy, bridging browser context
+      to the network via WebSocket. This allows cloud-hosted LLMs, support dashboards, CI/CD agents, or any standard
+      MCP client to query the same real-time frontend state over the wire.
+    </p>
+    <p>
+      Both paths expose identical tools and context. The developer defines capabilities once; MCP-FE makes them
+      available locally and remotely with zero extra configuration.
     </p>
   </section>
 
@@ -410,7 +460,7 @@ function Dashboard() {
             <div class="package-name">
               <a href="https://www.npmjs.com/package/@mcp-fe/mcp-worker" target="_blank" style="color: inherit; text-decoration: none;">@mcp-fe/mcp-worker</a>
             </div>
-            <div class="package-desc">Core browser-based MCP server implementation using Web Workers</div>
+            <div class="package-desc">Core browser-based MCP server — WebMCP-compatible, with WebSocket bridge for remote agents</div>
             <ul class="feature-list">
               <li>SharedWorker + ServiceWorker support</li>
               <li>IndexedDB storage</li>
@@ -469,6 +519,8 @@ function Dashboard() {
       <li><strong>On-Demand Querying</strong> — No continuous streaming, only when agents need data</li>
       <li><strong>Real-Time UI State</strong> — Access to navigation, clicks, inputs, and custom events</li>
       <li><strong>Framework Agnostic</strong> — Works with React, Vue, Angular, or vanilla JavaScript</li>
+      <li><strong>WebMCP Ready</strong> — Aligned with the emerging WebMCP spec (currently behind a flag in Chrome), but works universally today using existing APIs</li>
+      <li><strong>Local + Remote Agents</strong> — In-browser agents via Web Workers, remote agents via proxy server — same tools, two access paths</li>
       <li><strong>Production Ready</strong> — Docker image, TypeScript support, error handling</li>
       <li><strong>Privacy Focused</strong> — Data stays in browser until explicitly queried by authenticated agents</li>
     </ul>
@@ -519,6 +571,7 @@ await trackEvent({
       <a href="https://github.com/mcp-fe/mcp-fe" target="_blank">📚 Documentation</a>
       <a href="https://www.npmjs.com/package/@mcp-fe/mcp-worker" target="_blank">📦 npm Packages</a>
       <a href="https://github.com/mcp-fe/mcp-fe/pkgs/container/mcp-fe%2Fmcp-server" target="_blank">🐳 Docker Image</a>
+      <a href="https://github.com/webmachinelearning/webmcp" target="_blank">🌐 WebMCP Proposal</a>
     </div>
 
   </section>
@@ -533,4 +586,3 @@ await trackEvent({
 </main>
 </body>
 </html>
-
