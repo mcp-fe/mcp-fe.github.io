@@ -282,22 +282,21 @@
       and to <strong>remote agents</strong> over the network through our session-aware proxy server.
     </p>
 
-    <div class="highlight-box" style="border-left: 4px solid #bb9af7; margin-top: 1.5em;">
+    <div class="highlight-box" style="border-left: 4px solid #7aa2f7; margin-top: 1.5em;">
       <h3>🌐 WebMCP Compatible — and Beyond</h3>
       <p>
-        The <a href="https://github.com/webmachinelearning/webmcp" target="_blank" style="color: #bb9af7;">WebMCP specification</a>
+        The <a href="https://github.com/webmachinelearning/webmcp" target="_blank" style="color: #7aa2f7;">WebMCP specification</a>
         defines a standard for running MCP servers directly in the browser.
         It is already shipping in the latest Chrome <strong>behind an experimental feature flag</strong>.
         However, even when fully rolled out, native WebMCP will only enable <strong>local agents</strong> that run in the exact same browser context.
       </p>
       <p>
         <strong>MCP-FE bridges the gap today, for everyone.</strong>
-        It uses existing Web APIs (SharedWorker, ServiceWorker, WebSocket, IndexedDB) to deliver a
+        It uses existing Web APIs (SharedWorker, WebSocket) to deliver a
         browser-native MCP server experience — <strong>without requiring users to enable experimental browser flags.</strong>
         On top of that, its <strong>backend proxy server</strong> connects the browser MCP node to the network,
-        allowing <strong>remote AI agents</strong> (cloud-hosted LLMs, CI/CD pipelines, support dashboards)
-        to query state and execute actions over standard
-        <a href="https://github.com/anthropics/model-context-protocol" target="_blank" style="color: #bb9af7;">MCP</a> transport.
+        allowing <strong>remote AI agents</strong> to query state and execute actions over standard
+        <a href="https://github.com/anthropics/model-context-protocol" target="_blank" style="color: #7aa2f7;">MCP</a> transport.
       </p>
       <p style="margin-bottom: 0;">
         As native WebMCP becomes available by default across browsers, MCP-FE will seamlessly adopt it as the primary transport.
@@ -357,20 +356,29 @@ function ProductDetail({ productId }) {
       <h3>2. Install in Your React App</h3>
       <pre><code>npm install @mcp-fe/react-tools @mcp-fe/mcp-worker</code></pre>
 
-      <h3>3. Inject Dynamic Tools</h3>
+      <h3>3. Set up worker files</h3>
+      <pre>
+<code>// For example in rspack.config.json
+entry: {
+   main: './src/main.tsx',
+   'mcp-service-worker': 'node_modules/@mcp-fe/mcp-worker/mcp-service-worker.ts',
+   'mcp-shared-worker': 'node_modules/@mcp-fe/mcp-worker/mcp-shared-worker.ts',
+},</code></pre>
+
+      <h3>4. Create a tool</h3>
       <pre><code>import { useMCPTool } from '@mcp-fe/react-tools';
 
 function Dashboard() {
   // AI Agent can now ask for internal metrics directly from this component
   useMCPTool('get_internal_metrics', 'Returns current dashboard KPIs', async () => ({
-    activeUsers: 42,
-    systemLoad: 'optimal'
+    activeUsers: state.activeUsers,
+    systemLoad: state.systemLoad,'
   }));
 
   return &lt;DashboardUI /&gt;;
 }</code></pre>
 
-      <h3>4. Query from AI Agents</h3>
+      <h3>5. Query from AI Agents</h3>
       <p>AI agents can now query real-time frontend state through standard MCP tools:</p>
       <ul>
         <li><code>get_connection_status</code> - Check browser session status</li>
@@ -440,7 +448,7 @@ function Dashboard() {
     </p>
     <p>
       <strong>Remote path (Proxy):</strong> The backend MCP server acts as a session-aware proxy, bridging browser context
-      to the network via WebSocket. This allows cloud-hosted LLMs, support dashboards, CI/CD agents, or any standard
+      to the network via WebSocket. This allows cloud-hosted agents, or any standard
       MCP client to query the same real-time frontend state over the wire.
     </p>
     <p>
@@ -521,7 +529,7 @@ function Dashboard() {
       <li><strong>Framework Agnostic</strong> — Works with React, Vue, Angular, or vanilla JavaScript</li>
       <li><strong>WebMCP Ready</strong> — Aligned with the emerging WebMCP spec (currently behind a flag in Chrome), but works universally today using existing APIs</li>
       <li><strong>Local + Remote Agents</strong> — In-browser agents via Web Workers, remote agents via proxy server — same tools, two access paths</li>
-      <li><strong>Production Ready</strong> — Docker image, TypeScript support, error handling</li>
+      <li><strong>Plug & Play</strong> — Docker image and NPM packages</li>
       <li><strong>Privacy Focused</strong> — Data stays in browser until explicitly queried by authenticated agents</li>
     </ul>
   </section>
@@ -550,14 +558,14 @@ await trackEvent({
   </section>
 
   <section class="section">
-    <h2>Current Status</h2>
+    <h2>Roadmap</h2>
     <p>MCP-FE is currently published as an open-source reference implementation. The focus is on:</p>
     <ul>
       <li>✅ <strong>Core Architecture Validation</strong> — Browser-based MCP servers working in production</li>
       <li>✅ <strong>Package Ecosystem</strong> — Modular libraries for different frameworks and use cases</li>
       <li>✅ <strong>Docker Distribution</strong> — Ready-to-use proxy server container</li>
+      <li>🔄 <strong>Production readiness</strong> — Performance optimization, security hardening</li>
       <li>🔄 <strong>Community Adoption</strong> — Gathering feedback and real-world usage patterns</li>
-      <li>🔄 <strong>Advanced Features</strong> — Performance optimization, offline support, enhanced security</li>
     </ul>
   </section>
 
@@ -571,7 +579,6 @@ await trackEvent({
       <a href="https://github.com/mcp-fe/mcp-fe" target="_blank">📚 Documentation</a>
       <a href="https://www.npmjs.com/package/@mcp-fe/mcp-worker" target="_blank">📦 npm Packages</a>
       <a href="https://github.com/mcp-fe/mcp-fe/pkgs/container/mcp-fe%2Fmcp-server" target="_blank">🐳 Docker Image</a>
-      <a href="https://github.com/webmachinelearning/webmcp" target="_blank">🌐 WebMCP Proposal</a>
     </div>
 
   </section>
