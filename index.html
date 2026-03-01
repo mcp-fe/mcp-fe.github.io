@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MCP-FE — Frontend Context Infrastructure for AI Agents</title>
+  <title>MCP-Frontend — Connect AI Agents to your App Runtime</title>
   <meta name="description"
         content="MCP-FE enables local and remote AI agents to query real-time frontend context via WebMCP-compatible edge nodes in the browser, bridged to the network through a session-aware proxy server." />
   <style>
@@ -172,6 +172,67 @@
       font-size: 0.9em;
     }
 
+    .feature-grid {
+      display: grid;
+      gap: 32px;
+      margin-top: 2em;
+      grid-template-columns: 1fr;
+    }
+
+    @media (min-width: 768px) {
+      .feature-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .feature-item h3 {
+      margin-top: 0;
+      font-size: 1.25rem;
+      color: #7aa2f7;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .feature-item p {
+      margin: 0.5em 0 0 0;
+      font-size: 0.95rem;
+      color: #a0a6b3;
+    }
+
+    .security-grid {
+      display: grid;
+      gap: 24px;
+      margin-top: 2em;
+      grid-template-columns: 1fr;
+    }
+
+    @media (min-width: 600px) {
+      .security-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .security-pillar {
+      padding-left: 16px;
+      border-left: 3px solid #7ee787;
+      background: rgba(126, 231, 135, 0.03);
+      padding-top: 8px;
+      padding-bottom: 8px;
+    }
+
+    .security-pillar strong {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 1.1rem;
+    }
+
+    .security-pillar p {
+      margin: 0;
+      font-size: 0.95rem;
+      color: #a0a6b3;
+    }
+
     .quick-start {
       background: linear-gradient(135deg, #1a1f26 0%, #242a32 100%);
       border: 1px solid #30363d;
@@ -251,8 +312,11 @@
 <body>
 <main>
   <header>
-    <h1>MCP-FE</h1>
-    <div class="tagline">Stop pushing logs. Start serving context on-demand.</div>
+    <h1>MCP-FrontEnd</h1>
+    <div class="tagline">The missing link between AI Agent reasoning and frontend reality</div>
+    <p style="color: #a0a6b3; font-size: 1.1rem; margin-top: 1rem;">
+      Stop scraping HTML. Start querying runtime. Transform your web app into a high-fidelity context engine for AI Agents.
+    </p>
   </header>
 
   <video width="100%" height="auto" controls style="margin-top: 2em; border-radius: 6px;">
@@ -261,47 +325,109 @@
   </video>
 
   <section class="section">
-    <h2>What is MCP-FE?</h2>
+    <h2>What is MCP-Frontend?</h2>
     <p>
-      MCP-FE is an architectural pattern and reference implementation that allows AI agents to reason about real user
-      interface state and <strong>execute actions directly within the frontend</strong> by exposing it via the <strong>Model Context Protocol (MCP)</strong>.
+      <strong>Current AI agents are Runtime-Blind.</strong> They interact with the web through a "straw"—using brittle screen scraping, slow vision models, or surface-level DOM analysis. They can see what a button looks like, but they don't know what it <em>does</em>, what's in the application state, or why an internal validation failed.
     </p>
 
-    <p>
-      Most AI integrations treat the browser as a read-only environment, pushing static analytics logs to a backend.
-      MCP-FE changes this by turning the browser into an active, two-way node, giving your AI agents both <strong>eyes (Context)</strong> and <strong>hands (Actions)</strong>:
-    </p>
-
-    <ul class="feature-list" style="margin-bottom: 1.5em;">
-      <li><strong>Context Provider (The Eyes):</strong> Agents can query live React/Zustand state, read current form values, and inspect user navigation history on-demand.</li>
-      <li><strong>Action Executor (The Hands):</strong> Agents can programmatically navigate your app via your router, fill and validate complex forms, or trigger internal side-effects safely through your predefined tools.</li>
-    </ul>
-
-    <p>
-      This capabilities are accessible both to <strong>in-browser agents</strong> natively,
-      and to <strong>remote agents</strong> over the network through our session-aware proxy server.
-    </p>
-
-    <div class="highlight-box" style="border-left: 4px solid #7aa2f7; margin-top: 1.5em;">
-      <h3>🌐 WebMCP Compatible — and Beyond</h3>
+    <div class="highlight-box" style="border-left: 4px solid #7aa2f7;">
+      <h3>From "Guessing" to "Querying"</h3>
       <p>
-        The <a href="https://github.com/webmachinelearning/webmcp" target="_blank" style="color: #7aa2f7;">WebMCP specification</a>
-        defines a standard for running MCP servers directly in the browser.
-        It is already shipping in the latest Chrome <strong>behind an experimental feature flag</strong>.
-        However, even when fully rolled out, native WebMCP will only enable <strong>local agents</strong> that run in the exact same browser context.
+        MCP-Frontend is the missing communication layer that transforms your web application from a passive UI into an <strong>Active Context Engine</strong>. By integrating it directly into your frontend code, you give AI agents a direct neural link to your app's internal runtime:
       </p>
+
+      <ul class="feature-list">
+        <li><strong>Deep Context (The Eyes):</strong> Agents can query live React/Zustand state, read exact form values, and inspect user navigation history with 100% accuracy.</li>
+        <li><strong>Precise Actions (The Hands):</strong> Agents can programmatically navigate your app, fill complex forms, or trigger side-effects safely through your predefined, type-safe tools.</li>
+      </ul>
+    </div>
+
+    <p>
+      Built on the <strong>Model Context Protocol (MCP)</strong>, this infrastructure is accessible both to <strong>in-browser agents</strong> natively, and to <strong>remote agents</strong> (like Claude Desktop or cloud-hosted bots) through our session-aware proxy server.
+    </p>
+
+    <div style="margin: 2em 0;  color: #a0a6b3; font-size: 0.95rem;">
+      <h3 style="font-size: 1.1rem; color: #7aa2f7; margin-top: 0;">🌐 Aligned with WebMCP Standards</h3>
       <p>
-        <strong>MCP-FE bridges the gap today, for everyone.</strong>
-        It uses existing Web APIs (SharedWorker, WebSocket) to deliver a
-        browser-native MCP server experience — <strong>without requiring users to enable experimental browser flags.</strong>
-        On top of that, its <strong>backend proxy server</strong> connects the browser MCP node to the network,
-        allowing <strong>remote AI agents</strong> to query state and execute actions over standard
-        <a href="https://github.com/anthropics/model-context-protocol" target="_blank" style="color: #7aa2f7;">MCP</a> transport.
+        The emerging <a href="https://github.com/webmachinelearning/webmcp" target="_blank" style="color: #7aa2f7; text-decoration: none; border-bottom: 1px dashed #7aa2f7;">WebMCP specification</a>
+        is a future standard for browser-based AI. While it is currently experimental and limited to local contexts,
+        <strong>MCP-Frontend bridges the gap today.</strong>
       </p>
       <p style="margin-bottom: 0;">
-        As native WebMCP becomes available by default across browsers, MCP-FE will seamlessly adopt it as the primary transport.
-        Until then — and beyond — MCP-FE gives you both local and remote agent access without the wait.
+        By using reliable Web APIs (SharedWorker, WebSockets), we provide a production-ready experience for
+        <strong>both local and remote agents</strong> right now—no experimental flags required.
+        As WebMCP matures, MCP-Frontend will seamlessly adopt it as a core transport layer.
       </p>
+    </div>
+
+  </section>
+
+  <section class="section">
+    <h2>The Current Reality of Browser-Based AI</h2>
+    <p>Building AI agents that interact with web applications is currently a mess of trade-offs. Existing approaches fall short because they treat the UI as a static image or a flat document, ignoring the rich logic underneath.</p>
+
+    <div class="package-grid" style="margin-top: 2em;">
+      <div class="package-card">
+        <div class="package-name">Vision is Expensive & Slow</div>
+        <div class="package-desc">Sending screenshots to Multimodal LLMs costs a fortune in tokens and takes seconds to process. It's too slow for real-time assistance.</div>
+      </div>
+      <div class="package-card">
+        <div class="package-name">Scraping is Brittle</div>
+        <div class="package-desc">DOM structures change. Classes are obfuscated. One CSS update can break your entire agentic workflow overnight.</div>
+      </div>
+      <div class="package-card">
+        <div class="package-name">Backend is Blind</div>
+        <div class="package-desc">Backend MCP servers can't see what's happening in the user's browser. They miss local state, unsaved forms, and UI errors.</div>
+      </div>
+      <div class="package-card">
+        <div class="package-name">Analytics are Passive</div>
+        <div class="package-desc">Logs tell you what <em>happened</em>. MCP-FE lets agents ask what is <em>happening right now</em> and intervene before the user leaves.</div>
+      </div>
+    </div>
+
+    <div class="highlight-box" style="margin-top: 2em; border-left: 4px solid #7aa2f7;">
+      <h3>The Evolution: Context-on-Demand</h3>
+      <p>
+        MCP-Frontend shifts the paradigm from <strong>guessing from HTML</strong> to <strong>querying the runtime</strong>.
+        It’s the difference between trying to understand a car by looking at its shell and plugging into its OBD-II diagnostic port.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Where MCP-Frontend Shines</h2>
+    <p>Stop treating AI as an external observer. Start building applications where the AI is an integrated collaborator that understands the context of every click.</p>
+
+    <div class="package-grid" style="margin-top: 2em;">
+      <div class="package-card">
+        <div class="package-name">Support with "X-Ray Vision"</div>
+        <p class="package-desc">
+          Instead of asking for screenshots, your support bot queries <code>get_validation_errors</code> or <code>get_app_state</code>.
+          It identifies why a user is stuck in seconds, not hours.
+        </p>
+      </div>
+
+      <div class="package-card">
+        <div class="package-name">Reliable AI Shopping</div>
+        <p class="package-desc">
+          Browser agents often fail when UI layouts shift. With MCP-FE, agents call <code>execute_checkout_flow</code> directly.
+          100% reliability, zero dependence on fragile HTML selectors.
+        </p>
+      </div>
+
+      <div class="package-card">
+        <div class="package-name">Complex ERP Navigation</div>
+        <p class="package-desc">
+          Don't force users to learn deep menus. They just say "Show me March sales," and the agent uses <code>set_filter_state</code> to navigate and configure the UI instantly.
+        </p>
+      </div>
+
+      <div class="package-card">
+        <div class="package-name">Reproducible Bug Reports</div>
+        <p class="package-desc">
+          QA agents can extract <code>get_event_history</code> (via <code>@mcp-fe/event-tracker</code>) to see the exact runtime sequence that led to a crash. No more "cannot reproduce" tickets.
+        </p>
+      </div>
     </div>
   </section>
 
@@ -389,51 +515,61 @@ function Dashboard() {
   </section>
 
   <section class="section">
-    <h2>Why does this exist?</h2>
-    <p>Modern AI agents often lack visibility into what the user is actually seeing or doing in the frontend.</p>
-    <p>Common approaches fall short:</p>
-    <ul>
-      <li>Analytics events are delayed and lossy</li>
-      <li>Polling frontend state is inefficient</li>
-      <li>Backend-only MCP servers cannot observe UI state</li>
-      <li>Screen sharing is too invasive and resource-intensive</li>
-      <li>Browser-native WebMCP is currently hidden behind a feature flag and limited to local agents only</li>
-    </ul>
-    <p>
-      MCP-FE solves this by enabling <strong>on-demand, session-scoped access</strong> to frontend context,
-      making AI agents truly context-aware of user interactions.
-    </p>
+    <h2>Production-Ready Architecture</h2>
+    <p>MCP-Frontend isn't just a prototype; it's a modular system designed to integrate your web app into the global AI ecosystem.</p>
 
-    <div class="highlight-box">
-      <h3>Real-World Use Cases</h3>
-      <div class="use-case">
-        <strong>Customer Support:</strong> AI agents can see exactly what the user clicked, where they navigated,
-        and what errors they encountered, enabling precise, context-aware assistance.
+    <div class="feature-grid">
+      <div class="feature-item">
+        <h3>🔌 Universal Connectivity</h3>
+        <p>By using the standard <strong>Model Context Protocol (MCP)</strong>, your frontend becomes instantly compatible with any agent—from <strong>Claude Desktop</strong> to custom autonomous bots.</p>
       </div>
-      <div class="use-case">
-        <strong>User Experience Analytics:</strong> Understand user behavior patterns, identify UI friction points,
-        and optimize conversion funnels based on real interaction data.
+
+      <div class="feature-item">
+        <h3>⚡ Zero-Latency Context</h3>
+        <p>By leveraging <strong>SharedWorkers</strong>, we eliminate unnecessary server round-trips. Agents query the local runtime in milliseconds, ensuring a fluid user experience.</p>
       </div>
-      <div class="use-case">
-        <strong>Debug & QA:</strong> AI agents can reproduce user issues by understanding the exact sequence
-        of interactions that led to a problem state.
+
+      <div class="feature-item">
+        <h3>📦 Framework Agnostic</h3>
+        <p>While we provide first-class <strong>React hooks</strong>, the core <code>@mcp-fe/mcp-worker</code> is built on vanilla Web APIs, making it compatible with Vue, Angular, or any JS application.</p>
       </div>
-      <div class="use-case">
-        <strong>Guided Assistance:</strong> AI agents can provide step-by-step guidance based on the user's
-        current location and previous actions in the application.
+
+      <div class="feature-item">
+        <h3>🌐 Future-Proof (WebMCP)</h3>
+        <p>Fully aligned with the emerging <strong>WebMCP</strong> standard. Use it today via existing Web APIs, and switch to native browser support as it rolls out across browsers.</p>
       </div>
     </div>
   </section>
 
   <section class="section">
     <h2>Security & Privacy First</h2>
-    <div class="highlight-box" style="border-left: 4px solid #7ee787;">
-      <p>Unlike traditional analytics, <strong>MCP-FE is passive</strong>. It doesn't stream your data to any cloud.</p>
-      <ul class="feature-list">
-        <li><strong>Pull Model:</strong> Context only leaves the browser when an agent explicitly calls a tool.</li>
-        <li><strong>Developer-Defined:</strong> You decide exactly which state or actions are exposed.</li>
-        <li><strong>Local Execution:</strong> Tool handlers run in your app's context, respecting your existing auth.</li>
-      </ul>
+    <div class="highlight-box">
+      <p style="margin-top: 0;">
+        Unlike traditional analytics or screen-sharing tools, <strong>MCP-Frontend is passive and local-first</strong>.
+        It doesn't stream your data to any cloud; it empowers your application to speak for itself.
+      </p>
+
+      <div class="security-grid">
+        <div class="security-pillar">
+          <strong>Strict Pull Model</strong>
+          <p>Context never leaves the browser unless an authenticated agent explicitly calls a tool you provided.</p>
+        </div>
+
+        <div class="security-pillar">
+          <strong>Developer-Controlled</strong>
+          <p>You have total control. You decide exactly which state, props, or actions are exposed to the agent.</p>
+        </div>
+
+        <div class="security-pillar">
+          <strong>Native Auth Context</strong>
+          <p>Tool handlers run inside your app's runtime, respecting your existing authentication and permissions.</p>
+        </div>
+
+        <div class="security-pillar">
+          <strong>No Invasiveness</strong>
+          <p>No pixel-scraping, no screen recording. Only structured, purposeful data exchange via standardized protocol.</p>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -520,44 +656,6 @@ function Dashboard() {
   </section>
 
   <section class="section">
-    <h2>Key Features</h2>
-    <ul class="feature-list">
-      <li><strong>Browser-Native MCP Server</strong> — Full MCP implementation running in Web Workers</li>
-      <li><strong>Session-Scoped Context</strong> — Each browser session is isolated and queryable</li>
-      <li><strong>On-Demand Querying</strong> — No continuous streaming, only when agents need data</li>
-      <li><strong>Real-Time UI State</strong> — Access to navigation, clicks, inputs, and custom events</li>
-      <li><strong>Framework Agnostic</strong> — Works with React, Vue, Angular, or vanilla JavaScript</li>
-      <li><strong>WebMCP Ready</strong> — Aligned with the emerging WebMCP spec (currently behind a flag in Chrome), but works universally today using existing APIs</li>
-      <li><strong>Local + Remote Agents</strong> — In-browser agents via Web Workers, remote agents via proxy server — same tools, two access paths</li>
-      <li><strong>Plug & Play</strong> — Docker image and NPM packages</li>
-      <li><strong>Privacy Focused</strong> — Data stays in browser until explicitly queried by authenticated agents</li>
-    </ul>
-  </section>
-
-  <section class="section">
-    <h2>Framework Support</h2>
-
-    <h3>React Applications</h3>
-    <pre><code>import { useReactRouterEventTracker } from '@mcp-fe/react-event-tracker';
-
-function App() {
-  useReactRouterEventTracker({ backendWsUrl: 'ws://localhost:3001' });
-  return &lt;BrowserRouter&gt;{/* your routes */}&lt;/BrowserRouter&gt;;
-}</code></pre>
-
-    <h3>Framework Agnostic</h3>
-    <pre><code>import { initEventTracker, trackEvent } from '@mcp-fe/event-tracker';
-
-await initEventTracker({ backendWsUrl: 'ws://localhost:3001' });
-
-// Track custom events
-await trackEvent({
-  type: 'custom',
-  metadata: { action: 'purchase', amount: 99.99 }
-});</code></pre>
-  </section>
-
-  <section class="section">
     <h2>Roadmap</h2>
     <p>MCP-FE is currently published as an open-source reference implementation. The focus is on:</p>
     <ul>
@@ -571,7 +669,7 @@ await trackEvent({
 
   <section class="section" style="text-align: center; background: #161a22; padding: 48px; border-radius: 12px;">
     <h2>Ready to give your AI eyes?</h2>
-    <p>Start building "Runtime-Aware" applications today.</p>
+    <p style="max-width: 100%">Start building AI-Native applications today</p>
     <div class="links" style="margin-top: 24px;">
       <a href="https://github.com/mcp-fe/mcp-fe" style="background: #7aa2f7; color: #0f1115; font-weight: bold; padding: 12px 32px;">Get Started on GitHub</a>
     </div>
