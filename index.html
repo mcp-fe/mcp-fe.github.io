@@ -290,6 +290,27 @@
       border-left: 3px solid #7aa2f7;
     }
 
+    .use-case-card {
+      border: 1px solid #2a2d34;
+      background: #161a22;
+      border-radius: 8px;
+      padding: 20px;
+      transition: border-color 0.2s ease;
+      min-width: 0;
+    }
+
+    .use-case-name {
+      font-weight: bold;
+      color: #7aa2f7;
+      font-size: 1.1em;
+    }
+
+    .use-case-desc {
+      color: #a0a6b3;
+      margin: 0.5em 0;
+      font-size: 0.9em;
+    }
+
     footer {
       margin-top: 6em;
       font-size: 0.9rem;
@@ -367,21 +388,21 @@
     <p>Building AI agents that interact with web applications is currently a mess of trade-offs. Existing approaches fall short because they treat the UI as a static image or a flat document, ignoring the rich logic underneath.</p>
 
     <div class="package-grid" style="margin-top: 2em;">
-      <div class="package-card">
-        <div class="package-name">Vision is Expensive & Slow</div>
-        <div class="package-desc">Sending screenshots to Multimodal LLMs costs a fortune in tokens and takes seconds to process. It's too slow for real-time assistance.</div>
+      <div class="use-case-card">
+        <div class="use-case-name">Vision is Expensive & Slow</div>
+        <div class="use-case-desc">Sending screenshots to Multimodal LLMs costs a fortune in tokens and takes seconds to process. It's too slow for real-time assistance.</div>
       </div>
-      <div class="package-card">
-        <div class="package-name">Scraping is Brittle</div>
-        <div class="package-desc">DOM structures change. Classes are obfuscated. One CSS update can break your entire agentic workflow overnight.</div>
+      <div class="use-case-card">
+        <div class="use-case-name">Scraping is Brittle</div>
+        <div class="use-case-desc">DOM structures change. Classes are obfuscated. One CSS update can break your entire agentic workflow overnight.</div>
       </div>
-      <div class="package-card">
-        <div class="package-name">Backend is Blind</div>
-        <div class="package-desc">Backend MCP servers can't see what's happening in the user's browser. They miss local state, unsaved forms, and UI errors.</div>
+      <div class="use-case-card">
+        <div class="use-case-name">Backend is Blind</div>
+        <div class="use-case-desc">Backend MCP servers can't see what's happening in the user's browser. They miss local state, unsaved forms, and UI errors.</div>
       </div>
-      <div class="package-card">
-        <div class="package-name">Analytics are Passive</div>
-        <div class="package-desc">Logs tell you what <em>happened</em>. MCP-FE lets agents ask what is <em>happening right now</em> and intervene before the user leaves.</div>
+      <div class="use-case-card">
+        <div class="use-case-name">Analytics are Passive</div>
+        <div class="use-case-desc">Logs tell you what <em>happened</em>. MCP-FE lets agents ask what is <em>happening right now</em> and intervene before the user leaves.</div>
       </div>
     </div>
 
@@ -399,32 +420,32 @@
     <p>Stop treating AI as an external observer. Start building applications where the AI is an integrated collaborator that understands the context of every click.</p>
 
     <div class="package-grid" style="margin-top: 2em;">
-      <div class="package-card">
-        <div class="package-name">Support with "X-Ray Vision"</div>
-        <p class="package-desc">
+      <div class="use-case-card">
+        <div class="use-case-name">Support with "X-Ray Vision"</div>
+        <p class="use-case-desc">
           Instead of asking for screenshots, your support bot queries <code>get_validation_errors</code> or <code>get_app_state</code>.
           It identifies why a user is stuck in seconds, not hours.
         </p>
       </div>
 
-      <div class="package-card">
-        <div class="package-name">Reliable AI Shopping</div>
-        <p class="package-desc">
+      <div class="use-case-card">
+        <div class="use-case-name">Reliable AI Shopping</div>
+        <p class="use-case-desc">
           Browser agents often fail when UI layouts shift. With MCP-FE, agents call <code>execute_checkout_flow</code> directly.
           100% reliability, zero dependence on fragile HTML selectors.
         </p>
       </div>
 
-      <div class="package-card">
-        <div class="package-name">Complex ERP Navigation</div>
-        <p class="package-desc">
+      <div class="use-case-card">
+        <div class="use-case-name">Complex ERP Navigation</div>
+        <p class="use-case-desc">
           Don't force users to learn deep menus. They just say "Show me March sales," and the agent uses <code>set_filter_state</code> to navigate and configure the UI instantly.
         </p>
       </div>
 
-      <div class="package-card">
-        <div class="package-name">Reproducible Bug Reports</div>
-        <p class="package-desc">
+      <div class="use-case-card">
+        <div class="use-case-name">Reproducible Bug Reports</div>
+        <p class="use-case-desc">
           QA agents can extract <code>get_event_history</code> (via <code>@mcp-fe/event-tracker</code>) to see the exact runtime sequence that led to a crash. No more "cannot reproduce" tickets.
         </p>
       </div>
@@ -460,12 +481,12 @@ function ProductDetail({ productId }) {
 }</code></pre>
     </div>
 
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px;">
-      <div class="use-case">
-        <strong>Contextual Lifecycle:</strong> When the component unmounts, the tool is automatically deregistered from the Worker. No ghost tools.
+    <div class="feature-grid" style="margin-top: 20px; gap: 20px;">
+      <div class="use-case" style="margin: 0;">
+        <strong>Contextual Lifecycle:</strong> Tools automatically deregister when components unmount. No ghost tools.
       </div>
-      <div class="use-case">
-        <strong>Zero Data Leakage:</strong> Sensitive data stays in your component's closure until the agent explicitly asks for it.
+      <div class="use-case" style="margin: 0;">
+        <strong>Zero Data Leakage:</strong> Sensitive data stays in your app until the agent explicitly asks for it.
       </div>
     </div>
   </section>
@@ -498,7 +519,7 @@ function Dashboard() {
   // AI Agent can now ask for internal metrics directly from this component
   useMCPTool('get_internal_metrics', 'Returns current dashboard KPIs', async () => ({
     activeUsers: state.activeUsers,
-    systemLoad: state.systemLoad,'
+    systemLoad: state.systemLoad,
   }));
 
   return &lt;DashboardUI /&gt;;
