@@ -328,6 +328,76 @@
       font-size: 0.9em;
       margin: 1em 0;
     }
+
+    .demo-banner {
+      background: linear-gradient(135deg, #1a2235 0%, #1e1a2e 50%, #1a2235 100%);
+      border: 1px solid #3d4a6b;
+      border-radius: 12px;
+      padding: 36px 40px;
+      margin: 2.5em 0;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .demo-banner::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 50% 0%, rgba(122, 162, 247, 0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .demo-banner h2 {
+      margin: 0 0 0.4em 0;
+      border: none;
+      padding: 0;
+      font-size: 1.6rem;
+      background: linear-gradient(to right, #7aa2f7, #bb9af7);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .demo-banner p {
+      margin: 0 auto 1.6em auto;
+      color: #a0a6b3;
+      font-size: 1rem;
+      max-width: 560px;
+    }
+
+    .demo-cta-btn {
+      display: inline-block;
+      background: linear-gradient(135deg, #7aa2f7, #bb9af7);
+      color: #0f1115;
+      font-weight: 700;
+      font-size: 1.1rem;
+      padding: 14px 40px;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      box-shadow: 0 4px 24px rgba(122, 162, 247, 0.3);
+    }
+
+    .demo-cta-btn:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 32px rgba(122, 162, 247, 0.45);
+    }
+
+    .demo-features {
+      display: flex;
+      gap: 24px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 1.6em;
+      font-size: 0.88rem;
+      color: #6b7385;
+    }
+
+    .demo-features span::before {
+      content: "✓ ";
+      color: #7aa2f7;
+    }
   </style>
 </head>
 <body>
@@ -344,6 +414,23 @@
     <source src="./mcp-fe-demo.mp4" type="video/mp4" />
     Your browser does not support the video tag.
   </video>
+
+  <div class="demo-banner">
+    <h2>Try the Live Demo</h2>
+    <p>
+      Explore a fully functional React app with MCP-FE integrated — then connect Claude or any MCP client
+      and watch it query real-time frontend state directly from the browser.
+    </p>
+    <a class="demo-cta-btn" href="https://demo.mcp-fe.ai" target="_blank" rel="noopener noreferrer">
+      Open Interactive Demo →
+    </a>
+    <div class="demo-features">
+      <span>No install required</span>
+      <span>Live form &amp; state inspection</span>
+      <span>User event tracking</span>
+      <span>Works with Claude</span>
+    </div>
+  </div>
 
   <section class="section">
     <h2>What is MCP-Frontend?</h2>
@@ -692,6 +779,7 @@ function Dashboard() {
     <h2>Ready to give your AI eyes?</h2>
     <p style="max-width: 100%">Start building AI-Native applications today</p>
     <div class="links" style="margin-top: 24px;">
+      <a href="https://demo.mcp-fe.ai" target="_blank" rel="noopener noreferrer" style="background: linear-gradient(135deg, #7aa2f7, #bb9af7); color: #0f1115; font-weight: bold; padding: 12px 32px; border: none;">Try Live Demo</a>
       <a href="https://github.com/mcp-fe/mcp-fe" style="background: #7aa2f7; color: #0f1115; font-weight: bold; padding: 12px 32px;">Get Started on GitHub</a>
     </div>
     <div class="links" style="margin-top: 26px;">
