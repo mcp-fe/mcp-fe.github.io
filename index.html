@@ -6,428 +6,19 @@
   <title>MCP-Frontend — Connect AI Agents to your App Runtime</title>
   <meta name="description"
         content="MCP-FE enables local and remote AI agents to query real-time frontend context via WebMCP-compatible edge nodes in the browser, bridged to the network through a session-aware proxy server." />
-  <style>
-    body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      margin: 0;
-      padding: 0;
-      background: #0f1115;
-      color: #e6e6e6;
-      line-height: 1.6;
-      overflow-x: clip;
-    }
-
-    main {
-      max-width: 880px;
-      margin: 0 auto;
-      padding: 64px 24px;
-    }
-
-    h1, h2, h3 {
-      line-height: 1.25;
-      margin-top: 2.2em;
-    }
-
-    h1 {
-      font-size: 3rem;
-      margin-top: 0;
-      background: linear-gradient(to right, #7aa2f7, #bb9af7);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    h2 {
-      font-size: 1.8rem;
-      border-bottom: 1px solid #2a2d34;
-      padding-bottom: 0.3em;
-    }
-
-    h3 {
-      font-size: 1.3rem;
-      color: #c9d4e8;
-    }
-
-    p {
-      max-width: 720px;
-    }
-
-    code, pre {
-      background: #161a22;
-      border-radius: 6px;
-      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-    }
-
-    code {
-      padding: 0.2em 0.4em;
-      font-size: 0.9em;
-      color: #ff7b72;
-    }
-
-    pre {
-      padding: 16px;
-      overflow-x: auto;
-      margin: 1.2em 0;
-    }
-
-    pre code {
-      color: #e6edf3;
-      background: none;
-      padding: 0;
-    }
-
-    .tagline {
-      font-size: 1.25rem;
-      color: #a0a6b3;
-      margin-top: 0.5em;
-    }
-
-    .section {
-      margin-top: 3.5em;
-    }
-
-    .highlight-box {
-      background: #1c2128;
-      border: 1px solid #30363d;
-      border-radius: 8px;
-      padding: 24px;
-      margin: 1.5em 0;
-    }
-
-    .highlight-box h3 {
-      margin-top: 0;
-    }
-
-    .full-bleed {
-      width: 100vw;
-      position: relative;
-      left: 50%;
-      right: 50%;
-      margin-left: -50vw;
-      margin-right: -50vw;
-    }
-
-    .full-bleed-inner {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 24px;
-    }
-
-    .package-grid {
-      display: grid;
-      gap: 20px;
-      margin: 2em 0;
-      align-items: stretch;
-
-      /* Mobil / úzké displeje: 1 sloupec */
-      grid-template-columns: 1fr;
-    }
-
-    /* Střední šířky: 2 sloupce */
-    @media (min-width: 700px) {
-      .package-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-    }
-
-    /* Široké displeje: 4 sloupce */
-    @media (min-width: 1200px) {
-      .package-grid {
-        grid-template-columns: repeat(4, minmax(0, 1fr));
-      }
-    }
-
-    .package-card {
-      background: #161a22;
-      border: 1px solid #2a2d34;
-      border-radius: 8px;
-      padding: 20px;
-      transition: border-color 0.2s ease;
-      min-width: 0;
-    }
-
-    .package-card:hover {
-      border-color: #7aa2f7;
-    }
-
-    .package-name {
-      font-weight: bold;
-      color: #7aa2f7;
-      font-size: 1.1em;
-    }
-
-    .package-name a {
-      color: inherit;
-      text-decoration: none;
-      transition: color 0.2s ease;
-    }
-
-    .package-name a:hover {
-      color: #9bb5ff;
-      text-decoration: underline;
-    }
-
-    .package-desc {
-      color: #a0a6b3;
-      margin: 0.5em 0;
-      font-size: 0.9em;
-    }
-
-    .feature-grid {
-      display: grid;
-      gap: 32px;
-      margin-top: 2em;
-      grid-template-columns: 1fr;
-    }
-
-    @media (min-width: 768px) {
-      .feature-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-
-    .feature-item h3 {
-      margin-top: 0;
-      font-size: 1.25rem;
-      color: #7aa2f7;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .feature-item p {
-      margin: 0.5em 0 0 0;
-      font-size: 0.95rem;
-      color: #a0a6b3;
-    }
-
-    .security-grid {
-      display: grid;
-      gap: 24px;
-      margin-top: 2em;
-      grid-template-columns: 1fr;
-    }
-
-    @media (min-width: 600px) {
-      .security-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-
-    .security-pillar {
-      padding-left: 16px;
-      border-left: 3px solid #7ee787;
-      background: rgba(126, 231, 135, 0.03);
-      padding-top: 8px;
-      padding-bottom: 8px;
-    }
-
-    .security-pillar strong {
-      display: block;
-      margin-bottom: 4px;
-      font-size: 1.1rem;
-    }
-
-    .security-pillar p {
-      margin: 0;
-      font-size: 0.95rem;
-      color: #a0a6b3;
-    }
-
-    .quick-start {
-      background: linear-gradient(135deg, #1a1f26 0%, #242a32 100%);
-      border: 1px solid #30363d;
-      border-radius: 12px;
-      padding: 32px;
-      margin: 2em 0;
-    }
-
-    .links a {
-      display: inline-block;
-      margin-right: 16px;
-      color: #7aa2f7;
-      text-decoration: none;
-      padding: 8px 16px;
-      border: 1px solid #30363d;
-      border-radius: 6px;
-      transition: all 0.2s ease;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-    }
-
-    .links a:hover {
-      background: #7aa2f7;
-      color: #0f1115;
-      text-decoration: none;
-    }
-
-    .feature-list {
-      list-style: none;
-      padding-left: 0;
-    }
-
-    .feature-list code {
-      background: none;
-      color: inherit;
-      padding: 0;
-    }
-
-    .feature-list li {
-      padding: 8px 0;
-      padding-left: 24px;
-      position: relative;
-    }
-
-    .feature-list li::before {
-      content: "✓";
-      color: #7aa2f7;
-      font-weight: bold;
-      position: absolute;
-      left: 0;
-    }
-
-    .use-case {
-      margin: 1.5em 0;
-      padding-left: 20px;
-      border-left: 3px solid #7aa2f7;
-    }
-
-    .use-case-card {
-      border: 1px solid #2a2d34;
-      background: #161a22;
-      border-radius: 8px;
-      padding: 24px 28px;
-      transition: border-color 0.2s ease;
-      min-width: 0;
-    }
-
-    .use-case-name {
-      font-weight: bold;
-      color: #7aa2f7;
-      font-size: 1.1em;
-      margin-bottom: 0.5em;
-    }
-
-    .use-case-card .use-case-desc {
-      color: #a0a8b8;
-      line-height: 1.65;
-      margin: 0;
-    }
-
-    .grid-2col {
-      grid-template-columns: 1fr !important;
-    }
-
-    @media (min-width: 700px) {
-      .grid-2col {
-        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-      }
-    }
-
-    .use-case-desc {
-      color: #a0a6b3;
-      margin: 0.5em 0;
-      font-size: 0.9em;
-    }
-
-    footer {
-      margin-top: 6em;
-      font-size: 0.9rem;
-      color: #8b90a0;
-      border-top: 1px solid #2a2d34;
-      padding-top: 2em;
-    }
-
-    .docker-command {
-      background: #0d1117;
-      border: 1px solid #21262d;
-      border-radius: 6px;
-      padding: 12px 16px;
-      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-      font-size: 0.9em;
-      margin: 1em 0;
-    }
-
-    .demo-banner {
-      background: linear-gradient(135deg, #1a2235 0%, #1e1a2e 50%, #1a2235 100%);
-      border: 1px solid #3d4a6b;
-      border-radius: 12px;
-      padding: 36px 40px;
-      margin: 2.5em 0;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .demo-banner::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(ellipse at 50% 0%, rgba(122, 162, 247, 0.12) 0%, transparent 70%);
-      pointer-events: none;
-    }
-
-    .demo-banner h2 {
-      margin: 0 0 0.4em 0;
-      border: none;
-      padding: 0;
-      font-size: 1.6rem;
-      background: linear-gradient(to right, #7aa2f7, #bb9af7);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .demo-banner p {
-      margin: 0 auto 1.6em auto;
-      color: #a0a6b3;
-      font-size: 1rem;
-      max-width: 560px;
-    }
-
-    .demo-cta-btn {
-      display: inline-block;
-      background: linear-gradient(135deg, #7aa2f7, #bb9af7);
-      color: #0f1115;
-      font-weight: 700;
-      font-size: 1.1rem;
-      padding: 14px 40px;
-      border-radius: 8px;
-      text-decoration: none;
-      transition: opacity 0.2s ease, transform 0.2s ease;
-      box-shadow: 0 4px 24px rgba(122, 162, 247, 0.3);
-    }
-
-    .demo-cta-btn:hover {
-      opacity: 0.9;
-      transform: translateY(-1px);
-      box-shadow: 0 6px 32px rgba(122, 162, 247, 0.45);
-    }
-
-    .demo-features {
-      display: flex;
-      gap: 24px;
-      justify-content: center;
-      flex-wrap: wrap;
-      margin-top: 1.6em;
-      font-size: 0.88rem;
-      color: #6b7385;
-    }
-
-    .demo-features span::before {
-      content: "✓ ";
-      color: #7aa2f7;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 <main>
   <header>
     <h1>MCP-FrontEnd</h1>
     <div class="tagline">The missing link between AI Agent reasoning and frontend reality</div>
-    <p style="color: #a0a6b3; font-size: 1.1rem; margin-top: 1rem;">
+    <p class="header-subtitle">
       Stop scraping HTML. Start querying runtime. Transform your web app into a high-fidelity context engine for AI Agents.
     </p>
   </header>
 
-  <video width="100%" height="auto" controls style="margin-top: 2em; border-radius: 6px;">
+  <video class="demo-video" width="100%" height="auto" controls>
     <source src="./mcp-fe-demo.mp4" type="video/mp4" />
     Your browser does not support the video tag.
   </video>
@@ -455,7 +46,7 @@
       <strong>Current AI agents are Runtime-Blind.</strong> They interact with the web through a "straw"—using brittle screen scraping, slow vision models, or surface-level DOM analysis. They can see what a button looks like, but they don't know what it <em>does</em>, what's in the application state, or why an internal validation failed.
     </p>
 
-    <div class="highlight-box" style="border-left: 4px solid #7aa2f7;">
+    <div class="highlight-box highlight-box--accent">
       <h3>From "Guessing" to "Querying"</h3>
       <p>
         MCP-Frontend is the missing communication layer that transforms your web application from a passive UI into an <strong>Active Context Engine</strong>. By integrating it directly into your frontend code, you give AI agents a direct neural link to your app's internal runtime:
@@ -471,14 +62,14 @@
       Built on the <strong>Model Context Protocol (MCP)</strong>, this infrastructure is accessible both to <strong>in-browser agents</strong> natively, and to <strong>remote agents</strong> (like Claude Desktop or cloud-hosted bots) through our session-aware proxy server.
     </p>
 
-    <div style="margin: 2em 0;  color: #a0a6b3; font-size: 0.95rem;">
-      <h3 style="font-size: 1.1rem; color: #7aa2f7; margin-top: 0;">🌐 Aligned with WebMCP Standards</h3>
+    <div class="webmcp-note">
+      <h3>🌐 Aligned with WebMCP Standards</h3>
       <p>
-        The emerging <a href="https://github.com/webmachinelearning/webmcp" target="_blank" style="color: #7aa2f7; text-decoration: none; border-bottom: 1px dashed #7aa2f7;">WebMCP specification</a>
+        The emerging <a href="https://github.com/webmachinelearning/webmcp" target="_blank" class="link-accent">WebMCP specification</a>
         is a future standard for browser-based AI. While it is currently experimental and limited to local contexts,
         <strong>MCP-Frontend bridges the gap today.</strong>
       </p>
-      <p style="margin-bottom: 0;">
+      <p>
         By using reliable Web APIs (SharedWorker, WebSockets), we provide a production-ready experience for
         <strong>both local and remote agents</strong> right now—no experimental flags required.
         As WebMCP matures, MCP-Frontend will seamlessly adopt it as a core transport layer.
@@ -491,7 +82,7 @@
     <h2>The Current Reality of Browser-Based AI</h2>
     <p>Building AI agents that interact with web applications is currently a mess of trade-offs. Existing approaches fall short because they treat the UI as a static image or a flat document, ignoring the rich logic underneath.</p>
 
-    <div class="package-grid" style="margin-top: 2em;">
+    <div class="package-grid">
       <div class="use-case-card">
         <div class="use-case-name">Vision is Expensive & Slow</div>
         <div class="use-case-desc">Sending screenshots to Multimodal LLMs costs a fortune in tokens and takes seconds to process. It's too slow for real-time assistance.</div>
@@ -510,11 +101,11 @@
       </div>
     </div>
 
-    <div class="highlight-box" style="margin-top: 2em; border-left: 4px solid #7aa2f7;">
+    <div class="highlight-box highlight-box--accent">
       <h3>The Evolution: Context-on-Demand</h3>
       <p>
         MCP-Frontend shifts the paradigm from <strong>guessing from HTML</strong> to <strong>querying the runtime</strong>.
-        It’s the difference between trying to understand a car by looking at its shell and plugging into its OBD-II diagnostic port.
+        It's the difference between trying to understand a car by looking at its shell and plugging into its OBD-II diagnostic port.
       </p>
     </div>
   </section>
@@ -523,7 +114,7 @@
     <h2>Where MCP-Frontend Shines</h2>
     <p>Stop treating AI as an external observer. Start building applications where the AI is an integrated collaborator that understands the context of every click.</p>
 
-    <div class="package-grid grid-2col" style="margin-top: 2em;">
+    <div class="package-grid grid-2col">
       <div class="use-case-card">
         <div class="use-case-name">AI copilot built into your product</div>
         <p class="use-case-desc">
@@ -539,7 +130,6 @@
           It identifies why a user is stuck in seconds, not hours.
         </p>
       </div>
-
 
       <div class="use-case-card">
         <div class="use-case-name">Onboarding assistant</div>
@@ -587,11 +177,11 @@ function ProductDetail({ productId }) {
 }</code></pre>
     </div>
 
-    <div class="feature-grid" style="margin-top: 20px; gap: 20px;">
-      <div class="use-case" style="margin: 0;">
+    <div class="feature-grid feature-grid--compact">
+      <div class="use-case use-case--flush">
         <strong>Contextual Lifecycle:</strong> Tools automatically deregister when components unmount. No ghost tools.
       </div>
-      <div class="use-case" style="margin: 0;">
+      <div class="use-case use-case--flush">
         <strong>Zero Data Leakage:</strong> Sensitive data stays in your app until the agent explicitly asks for it.
       </div>
     </div>
@@ -671,7 +261,7 @@ function Dashboard() {
   <section class="section">
     <h2>Security & Privacy First</h2>
     <div class="highlight-box">
-      <p style="margin-top: 0;">
+      <p>
         Unlike traditional analytics or screen-sharing tools, <strong>MCP-Frontend is passive and local-first</strong>.
         It doesn't stream your data to any cloud; it empowers your application to speak for itself.
       </p>
@@ -703,7 +293,7 @@ function Dashboard() {
   <section class="section">
     <h2>High-Level Architecture</h2>
     <p>MCP-FE introduces a frontend edge layer that participates in the MCP ecosystem through two complementary access paths:</p>
-    <img src="./mcp-fe-architecture.png" alt="MCP-FE Architecture Diagram" style="max-width: 100%; height: auto;" />
+    <img class="architecture-img" src="./mcp-fe-architecture.png" alt="MCP-FE Architecture Diagram" />
     <p>
       <strong>Local path:</strong> In-browser agents can call MCP tools directly through a Web Worker built on
       existing Web APIs (SharedWorker, ServiceWorker, IndexedDB) — <strong>no experimental browser flags required.</strong>
@@ -729,7 +319,7 @@ function Dashboard() {
         <div class="package-grid">
           <div class="package-card">
             <div class="package-name">
-              <a href="https://www.npmjs.com/package/@mcp-fe/mcp-worker" target="_blank" style="color: inherit; text-decoration: none;">@mcp-fe/mcp-worker</a>
+              <a href="https://www.npmjs.com/package/@mcp-fe/mcp-worker" target="_blank">@mcp-fe/mcp-worker</a>
             </div>
             <div class="package-desc">Core browser-based MCP server — WebMCP-compatible, with WebSocket bridge for remote agents</div>
             <ul class="feature-list">
@@ -742,7 +332,7 @@ function Dashboard() {
 
           <div class="package-card">
             <div class="package-name">
-              <a href="https://www.npmjs.com/package/@mcp-fe/react-tools" target="_blank" style="color: inherit; text-decoration: none;">@mcp-fe/react-tools</a>
+              <a href="https://www.npmjs.com/package/@mcp-fe/react-tools" target="_blank">@mcp-fe/react-tools</a>
             </div>
             <div class="package-desc">React-first hooks for dynamic tool registration and state access.</div>
             <ul class="feature-list">
@@ -754,7 +344,7 @@ function Dashboard() {
 
           <div class="package-card">
             <div class="package-name">
-              <a href="https://www.npmjs.com/package/@mcp-fe/event-tracker" target="_blank" style="color: inherit; text-decoration: none;">@mcp-fe/event-tracker</a>
+              <a href="https://www.npmjs.com/package/@mcp-fe/event-tracker" target="_blank">@mcp-fe/event-tracker</a>
             </div>
             <div class="package-desc">Framework-agnostic event tracking API</div>
             <ul class="feature-list">
@@ -767,7 +357,7 @@ function Dashboard() {
 
           <div class="package-card">
             <div class="package-name">
-              <a href="https://www.npmjs.com/package/@mcp-fe/react-event-tracker" target="_blank" style="color: inherit; text-decoration: none;">@mcp-fe/react-event-tracker</a>
+              <a href="https://www.npmjs.com/package/@mcp-fe/react-event-tracker" target="_blank">@mcp-fe/react-event-tracker</a>
             </div>
             <div class="package-desc">React hooks for automatic event tracking</div>
             <ul class="feature-list">
@@ -794,14 +384,14 @@ function Dashboard() {
     </ul>
   </section>
 
-  <section class="section" style="text-align: center; background: #161a22; padding: 48px; border-radius: 12px;">
+  <section class="section section--cta">
     <h2>Ready to give your AI eyes?</h2>
-    <p style="max-width: 100%">Start building AI-Native applications today</p>
-    <div class="links" style="margin-top: 24px;">
-      <a href="https://demo.mcp-fe.ai" target="_blank" rel="noopener noreferrer" style="background: linear-gradient(135deg, #7aa2f7, #bb9af7); color: #0f1115; font-weight: bold; padding: 12px 32px; border: none;">Try Live Demo</a>
-      <a href="https://github.com/mcp-fe/mcp-fe" style="background: #7aa2f7; color: #0f1115; font-weight: bold; padding: 12px 32px;">Get Started on GitHub</a>
+    <p>Start building AI-Native applications today</p>
+    <div class="links">
+      <a href="https://demo.mcp-fe.ai" target="_blank" rel="noopener noreferrer" class="btn-primary">Try Live Demo</a>
+      <a href="https://github.com/mcp-fe/mcp-fe" class="btn-secondary">Get Started on GitHub</a>
     </div>
-    <div class="links" style="margin-top: 26px;">
+    <div class="links">
       <a href="https://github.com/mcp-fe/mcp-fe" target="_blank">📚 Documentation</a>
       <a href="https://www.npmjs.com/package/@mcp-fe/mcp-worker" target="_blank">📦 npm Packages</a>
       <a href="https://github.com/mcp-fe/mcp-fe/pkgs/container/mcp-fe%2Fmcp-server" target="_blank">🐳 Docker Image</a>
@@ -814,7 +404,7 @@ function Dashboard() {
       MCP-FE is an open source architectural exploration that bridges the gap between AI agents and real-time frontend context.<br>
       Feedback, discussion, and contributions are welcome.
     </p>
-    <p style="margin-top: 2em; font-size: 0.85rem;">© 2026 Michal Kopecký • Licensed under Apache 2.0</p>
+    <p class="footer-copyright">© 2026 Michal Kopecký • Licensed under Apache 2.0</p>
   </footer>
 </main>
 <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "d35e8e10810a4ffcb2e9a0a673ebf045"}'></script>
