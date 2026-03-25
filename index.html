@@ -294,7 +294,7 @@
       border: 1px solid #2a2d34;
       background: #161a22;
       border-radius: 8px;
-      padding: 20px;
+      padding: 24px 28px;
       transition: border-color 0.2s ease;
       min-width: 0;
     }
@@ -303,6 +303,23 @@
       font-weight: bold;
       color: #7aa2f7;
       font-size: 1.1em;
+      margin-bottom: 0.5em;
+    }
+
+    .use-case-card .use-case-desc {
+      color: #a0a8b8;
+      line-height: 1.65;
+      margin: 0;
+    }
+
+    .grid-2col {
+      grid-template-columns: 1fr !important;
+    }
+
+    @media (min-width: 700px) {
+      .grid-2col {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+      }
     }
 
     .use-case-desc {
@@ -506,7 +523,15 @@
     <h2>Where MCP-Frontend Shines</h2>
     <p>Stop treating AI as an external observer. Start building applications where the AI is an integrated collaborator that understands the context of every click.</p>
 
-    <div class="package-grid" style="margin-top: 2em;">
+    <div class="package-grid grid-2col" style="margin-top: 2em;">
+      <div class="use-case-card">
+        <div class="use-case-name">AI copilot built into your product</div>
+        <p class="use-case-desc">
+          Your agent knows what's in the database. With MCP-FE it also knows what the user is doing right now — which page they're on, what they've filled in, where they're stuck. Browser context is just another tool alongside the rest.
+          Agent calls <code>get_current_page_state</code> or <code>get_form_progress</code> and responds in context.
+        </p>
+      </div>
+
       <div class="use-case-card">
         <div class="use-case-name">Support with "X-Ray Vision"</div>
         <p class="use-case-desc">
@@ -515,18 +540,12 @@
         </p>
       </div>
 
-      <div class="use-case-card">
-        <div class="use-case-name">Reliable AI Shopping</div>
-        <p class="use-case-desc">
-          Browser agents often fail when UI layouts shift. With MCP-FE, agents call <code>execute_checkout_flow</code> directly.
-          100% reliability, zero dependence on fragile HTML selectors.
-        </p>
-      </div>
 
       <div class="use-case-card">
-        <div class="use-case-name">Complex ERP Navigation</div>
+        <div class="use-case-name">Onboarding assistant</div>
         <p class="use-case-desc">
-          Don't force users to learn deep menus. They just say "Show me March sales," and the agent uses <code>set_filter_state</code> to navigate and configure the UI instantly.
+          A new user is lost in a complex product. The agent sees exactly where they are, what they've already done, and guides them through the next step — no screenshots, no guessing.
+          Agent calls <code>get_user_events</code> to understand the journey so far and <code>navigate_to</code> to take them where they need to go.
         </p>
       </div>
 
